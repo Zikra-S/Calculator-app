@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTheme, type ThemeId } from "./context/themeContext";
 
-const keyBase = "h-16 rounded-md cursor-pointer";
+const keyBase = "h-16 md:h-14 rounded-md cursor-pointer";
 const numSize = "text-[32px] md:text-[40px]";
 const actionSize = "text-xl md:text-[28px]";
 const equalsSize = "text-2xl md:text-[32px]";
@@ -74,9 +74,9 @@ export default function App() {
 
   return (
     <div className={`min-h-screen ${styles.page}`}>
-      <main className="mx-auto flex min-h-screen max-w-135 flex-col justify-center px-6 py-8">
+      <main className="mx-auto flex min-h-screen max-w-135 flex-col justify-center px-6 py-4">
         {/* header */}
-        <header className="mb-6 flex items-end justify-between md:mb-8">
+        <header className="mb-6 flex items-end justify-between md:mb-6">
           <h1 className="text-[32px] leading-none">calc</h1>
 
           <div className="flex items-end gap-6">
@@ -107,13 +107,13 @@ export default function App() {
 
         {/* screen */}
         <div
-          className={`mb-6 flex h-22 items-center justify-end overflow-x-auto rounded-lg px-6 text-[32px] md:h-32 md:px-8 md:text-[56px] ${styles.screen}`}
+          className={`mb-6 flex h-22 items-center justify-end overflow-x-auto rounded-lg px-6 text-[32px] md:h-24 md:px-8 md:text-[48px] ${styles.screen}`}
         >
           {Number(display).toLocaleString("en-US")}
         </div>
 
         {/* keypad */}
-        <div className={`grid grid-cols-4 gap-4 rounded-lg p-6 md:gap-6 md:p-8 ${styles.pad}`}>
+        <div className={`grid grid-cols-4 gap-4 rounded-lg p-6 md:gap-4 md:p-6 ${styles.pad}`}>
           {keys.map((key) => (
             <button
               key={key}
