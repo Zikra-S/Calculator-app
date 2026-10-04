@@ -16,6 +16,10 @@ function calculate(a: number, b: number, operator: string) {
   return a / b;
 }
 
+function format(num: string) {
+  return Number(num).toLocaleString("en-US");
+}
+
 export default function App() {
   const { theme, setTheme, styles } = useTheme();
 
@@ -23,6 +27,7 @@ export default function App() {
   const [firstNumber, setFirstNumber] = useState<number | null>(null);
   const [operator, setOperator] = useState<string | null>(null);
   const [newNumber, setNewNumber] = useState(false);
+  const [prefix, setPrefix] = useState(""); // what was typed before the current number, e.g. "12 + "
 
   function handleNumber(num: string) {
     if (newNumber || display === "0") {
@@ -34,13 +39,20 @@ export default function App() {
   }
 
   function handleOperator(op: string) {
-    if (firstNumber !== null && operator && !newNumber) {
+    if (newNumber && operator) {
+      setPrefix(prefix.slice(0, -3) + ` ${op} `);
+      setOperator(op);
+      return;
+    }
+
+    if (firstNumber !== null && operator) {
       const result = calculate(firstNumber, Number(display), operator);
       setDisplay(String(result));
       setFirstNumber(result);
     } else {
       setFirstNumber(Number(display));
     }
+    setPrefix(prefix + format(display) + ` ${op} `);
     setOperator(op);
     setNewNumber(true);
   }
@@ -51,10 +63,12 @@ export default function App() {
     setDisplay(String(result));
     setFirstNumber(null);
     setOperator(null);
+    setPrefix("");
     setNewNumber(true);
   }
 
   function handleDelete() {
+    if (newNumber) return;
     setDisplay(display.length > 1 ? display.slice(0, -1) : "0");
   }
 
@@ -62,6 +76,7 @@ export default function App() {
     setDisplay("0");
     setFirstNumber(null);
     setOperator(null);
+    setPrefix("");
     setNewNumber(false);
   }
 
@@ -70,6 +85,8 @@ export default function App() {
     else if (["+", "-", "/", "x"].includes(key)) handleOperator(key);
     else handleNumber(key);
   }
+
+  const shown = newNumber && operator ? prefix : prefix + format(display);
 
   return (
     <div className={`min-h-screen ${styles.page}`}>
@@ -100,9 +117,10 @@ export default function App() {
           </div>
         </header>
 
-        <div
-          className={`mb-6 flex h-22 items-center justify-end overflow-x-auto rounded-lg px-6 text-[32px] md:h-24 md:px-8 md:text-[48px] ${styles.screen}`}>
-          {Number(display).toLocaleString("en-US")}
+        <div className={`mb-6 flex h-22 items-center overflow-x-auto rounded-lg px-6 md:h-24 md:px-8 ${styles.screen}`}>
+          <span className={`ml-auto whitespace-nowrap ${shown.length > 12 ? "text-[22px] md:text-[28px]" : "text-[32px] md:text-[48px]"}`}>
+            {shown}
+          </span>
         </div>
 
         <div className={`grid grid-cols-4 gap-4 rounded-lg p-6 md:gap-4 md:p-6 ${styles.pad}`}>
