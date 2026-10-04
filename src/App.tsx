@@ -34,7 +34,6 @@ export default function App() {
   }
 
   function handleOperator(op: string) {
-    // if there's already a pending operation, finish it first (2 + 3 + => 5 +)
     if (firstNumber !== null && operator && !newNumber) {
       const result = calculate(firstNumber, Number(display), operator);
       setDisplay(String(result));
@@ -75,7 +74,6 @@ export default function App() {
   return (
     <div className={`min-h-screen ${styles.page}`}>
       <main className="mx-auto flex min-h-screen max-w-135 flex-col justify-center px-6 py-4">
-        {/* header */}
         <header className="mb-6 flex items-end justify-between md:mb-6">
           <h1 className="text-[32px] leading-none">calc</h1>
 
@@ -96,44 +94,31 @@ export default function App() {
                     style={{ left: (id - 1) * 24 }}
                   />
                 ))}
-                <span
-                  className={`pointer-events-none absolute top-1 size-4 rounded-full ${styles.thumb}`}
-                  style={{ left: (theme - 1) * 24 + 4 }}
-                />
+                <span className={`pointer-events-none absolute top-1 size-4 rounded-full ${styles.thumb}`} style={{ left: (theme - 1) * 24 + 4 }} />
               </div>
             </div>
           </div>
         </header>
 
-        {/* screen */}
         <div
-          className={`mb-6 flex h-22 items-center justify-end overflow-x-auto rounded-lg px-6 text-[32px] md:h-24 md:px-8 md:text-[48px] ${styles.screen}`}
-        >
+          className={`mb-6 flex h-22 items-center justify-end overflow-x-auto rounded-lg px-6 text-[32px] md:h-24 md:px-8 md:text-[48px] ${styles.screen}`}>
           {Number(display).toLocaleString("en-US")}
         </div>
 
-        {/* keypad */}
         <div className={`grid grid-cols-4 gap-4 rounded-lg p-6 md:gap-4 md:p-6 ${styles.pad}`}>
           {keys.map((key) => (
             <button
               key={key}
               onClick={() => handleKey(key)}
-              className={`${keyBase} ${key === "DEL" ? `${styles.action} ${actionSize}` : `${styles.key} ${numSize}`} ${key === "0" ? "col-span-2" : ""}`}
-            >
+              className={`${keyBase} ${key === "DEL" ? `${styles.action} ${actionSize}` : `${styles.key} ${numSize}`} ${key === "0" ? "col-span-2" : ""}`}>
               {key}
             </button>
           ))}
 
-          <button
-            onClick={handleReset}
-            className={`${keyBase} ${styles.action} ${actionSize} col-span-2`}
-          >
+          <button onClick={handleReset} className={`${keyBase} ${styles.action} ${actionSize} col-span-2`}>
             RESET
           </button>
-          <button
-            onClick={handleEquals}
-            className={`${keyBase} ${styles.equals} ${equalsSize} col-span-2`}
-          >
+          <button onClick={handleEquals} className={`${keyBase} ${styles.equals} ${equalsSize} col-span-2`}>
             =
           </button>
         </div>
