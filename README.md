@@ -1,8 +1,5 @@
-<div align="center">
 
 ## calc
-
-**A chunky, themeable calculator with three looks, full keyboard support, and zero dependencies beyond React.**
 
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)
@@ -10,7 +7,6 @@
 ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
 
 
-</div>
 
 ---
 
