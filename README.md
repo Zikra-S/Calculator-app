@@ -1,26 +1,19 @@
+#  calc
 
-## calc
-
-![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)
-![Tailwind](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
-
-
+A chunky calculator with three themes, built with React, TypeScript and Tailwind CSS.
 
 ---
 
-##  Features
+## Features
 
-- **Three themes** — deep navy, soft light, and neon purple. Switch with the 1 / 2 / 3 slider.
-- **Remembers you** — your theme is saved, and on the first visit it matches your OS (dark or light).
-- **Chained math** — `2 + 3 + 4 =` just works.
-- **Live comma formatting** — `1234567` shows as `1,234,567` while you type.
-- **Keyboard friendly** — type on your real keyboard (see below).
-- **Responsive** — designed at 375px and 1440px, tested down to 320px.
-- **Accessible** — radio-based theme switcher, focus rings, screen reader announcements, and `prefers-reduced-motion` respected.
+- **Three themes**: deep navy, soft light, and neon purple. Switch with the 1 / 2 / 3 slider.
+- **Basic math**: add, subtract, multiply and divide.
+- **Chained math**: `2 + 3 + 4 =` just works.
+- **Comma formatting**: `1234567` shows as `1,234,567`.
+- **DEL and RESET**: delete the last digit or clear everything.
+- **Responsive**: built from the 375px mobile and 1440px desktop designs.
 
-##  Themes
+## Themes
 
 | Theme | Vibe | Main colors |
 |:-----:|------|-------------|
@@ -28,25 +21,14 @@
 | **2** | Light & warm | Gray, teal and orange |
 | **3** | Neon night | Deep purple, yellow text, cyan equals key |
 
-All colors live as CSS variables in `src/index.css`. Switching themes just changes `data-theme` on `<html>`, so there are no per-theme class names in the components.
-
-## ⌨️ Keyboard shortcuts
-
-| Key | Action |
-|-----|--------|
-| `0`–`9` | Enter digits |
-| `+` `-` `/` | Operators |
-| `*` or `x` | Multiply |
-| `Enter` or `=` | Equals |
-| `Backspace` | Delete last digit |
-| `Esc` | Reset |
+Each theme is a set of Tailwind classes stored in `src/context/ThemeContext.tsx`. The context shares the active theme with the whole app, so the components just read `styles` and never need to know which theme is on.
 
 ## 🛠️ Tech stack
 
-- [React](https://react.dev) with `useReducer` for all calculator state
-- [TypeScript](https://www.typescriptlang.org) for typed actions, state and operators
-- [Tailwind CSS v4](https://tailwindcss.com) using CSS-variable theming
-- [Vite](https://vite.dev) for dev server and build
+- [React](https://react.dev) with `useState` for the calculator and the Context API for themes
+- [TypeScript](https://www.typescriptlang.org)
+- [Tailwind CSS v4](https://tailwindcss.com)
+- [Vite](https://vite.dev) for the dev server and build
 - [League Spartan](https://fonts.google.com/specimen/League+Spartan) (700) for the type
 
 ## 🚀 Getting started
@@ -69,29 +51,36 @@ pnpm preview
 
 ```
 calculator-app/
-├── index.html          # League Spartan font + data-theme default
-├── vite.config.ts      # React + Tailwind plugins
+├── index.html              # League Spartan font
+├── vite.config.ts          # React + Tailwind plugins
 └── src/
-    ├── main.tsx        # App entry
-    ├── index.css       # Tailwind import + the 3 theme palettes
-    └── App.tsx         # Calculator logic (reducer) + UI
+    ├── main.tsx            # App entry, wraps the app in ThemeProvider
+    ├── index.css           # Tailwind import + font
+    ├── App.tsx             # Calculator logic + UI
+    └── context/
+        └── ThemeContext.tsx  # Theme classes + theme context
 ```
 
-## 🧠 How it works
+##  How it works
 
-The calculator is a small state machine. `App.tsx` keeps four values:
+`App.tsx` keeps four pieces of state:
 
 | State | Meaning |
 |-------|---------|
-| `current` | What's on the screen |
-| `previous` | The first number, stored while you type the second |
-| `op` | The operator you picked |
-| `overwrite` | Whether the next digit replaces the screen (after an operator or `=`) |
+| `display` | What's on the screen |
+| `firstNumber` | The first number, stored while you type the second |
+| `operator` | The operator you picked |
+| `newNumber` | Whether the next digit starts a new number (after an operator or `=`) |
 
-Every button dispatches an action (`digit`, `op`, `equals`, `del`, `reset`) and the reducer returns the next state.
+Each button calls a small handler (`handleNumber`, `handleOperator`, `handleEquals`, `handleDelete`, `handleReset`) that updates this state.
 
-## 📝 Notes
+##  Notes
 
 - Decimal input isn't supported, though division can still produce decimal results.
-- Dividing by zero shows `Infinity`.
-- Numbers have no length cap and scroll sideways inside the display when long.
+- Dividing by zero shows `∞`.
+- The display shows up to 3 decimal places.
+- The theme resets to theme 1 when you refresh the page.
+
+## Credits
+
+Design and style guide from the [Frontend Mentor](https://www.frontendmentor.io) calculator app challenge.
